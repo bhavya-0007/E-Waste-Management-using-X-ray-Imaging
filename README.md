@@ -1,19 +1,97 @@
-# E-Waste-Management-using-X-ray-Imaging
-An AI-powered approach to automated e-waste identification and intelligent resource recovery using X-ray imaging and computer vision.
+# 🔬 E-Waste Detection & Classification System
+## AI-Based Object Detection using YOLOv8 | 80/10/10 Split
 
-The project explores how non-destructive X-ray imaging can be combined with deep learning to identify and classify electronic components hidden inside e-waste, with a particular focus on Printed Circuit Boards (PCBs).
+---
 
-What I'm Working On
-Processing and analyzing X-ray images of electronic waste and PCBs.
-Using YOLOv8 for object detection and automated identification of PCB components.
-Developing an AI-based pipeline for non-destructive e-waste classification.
-Extracting useful information from X-ray imagery to identify internal components that may not be visible from the surface.
-Exploring how automated component identification can support material/resource recovery and e-waste segregation.
-Building a workflow that connects computer vision, image processing, and sustainable e-waste management.
-Technologies
+## ⚡ QUICK START (Run in ~2 Hours)
 
-Python · YOLOv8 · Computer Vision · Deep Learning · PyTorch · OpenCV · X-ray Imaging · Machine Learning
+```bash
+# 1. Install dependencies
+pip install ultralytics opencv-python matplotlib numpy pandas seaborn pyyaml requests tqdm pillow
 
-Goal
+# 2. Download dataset (run this first - takes ~5 minutes)
+python download_dataset.py
 
-The goal is to develop an intelligent and scalable system that can help make e-waste processing more automated, accurate, non-destructive, and resource-efficient, ultimately supporting better recovery of valuable materials from discarded electronics.
+# 3. Train the model (~60-90 min on GPU, ~4-6 hrs CPU)
+python train.py
+
+# 4. Evaluate on test set
+python evaluate.py
+
+# 5. Run inference on images
+python predict.py --source data/images/test/
+```
+
+---
+
+## 📁 Project Structure
+
+```
+ewaste_project/
+├── README.md
+├── download_dataset.py       ← Auto-downloads dataset
+├── train.py                  ← Full training pipeline
+├── evaluate.py               ← Metrics + confusion matrix
+├── predict.py                ← Inference on images/video
+├── material_classifier.py    ← Rule-based material + hazard inference
+├── recovery_estimator.py     ← Economic value estimation
+├── dataset.yaml              ← Auto-generated dataset config
+└── data/                     ← Auto-created by download_dataset.py
+    ├── images/train/
+    ├── images/val/
+    ├── images/test/
+    ├── labels/train/
+    ├── labels/val/
+    └── labels/test/
+```
+
+---
+
+## 🗂️ Dataset Info
+
+**Primary Source**: Roboflow Universe (free, no login needed for some)
+**Backup**: Script auto-generates synthetic data if download fails
+
+**Classes (12)**:
+| ID | Class |
+|----|-------|
+| 0  | circuit_board |
+| 1  | mobile_phone |
+| 2  | battery |
+| 3  | cable |
+| 4  | charger |
+| 5  | keyboard |
+| 6  | monitor |
+| 7  | mouse |
+| 8  | hard_drive |
+| 9  | ram |
+| 10 | cpu |
+| 11 | capacitor |
+
+---
+
+## 🏗️ Architecture (Improved vs Original)
+
+| Feature | Original (70/20/10) | This Project (80/10/10) |
+|---------|-------------------|------------------------|
+| Model | YOLOv8 only | YOLOv8 + material inference |
+| Output | BBox + class | BBox + class + hazard flag + value |
+| Hazard detection | ❌ | ✅ Toxic component flagging |
+| Recovery value | ❌ | ✅ Economic value estimator |
+| Dataset split | 70/20/10 | **80/10/10** |
+
+---
+
+## 📊 Expected Results
+
+| Metric | Expected |
+|--------|---------|
+| Precision | ~85-90% |
+| Recall | ~82-87% |
+| mAP@0.5 | ~0.84-0.88 |
+| F1 Score | ~0.85 |
+
+---
+
+## Requirements
+- Python 3.8+, 8GB RAM, GPU optional

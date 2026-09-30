@@ -1,0 +1,18 @@
+names:
+- circuit_board
+- mobile_phone
+- battery
+- cable
+- charger
+- keyboard
+- monitor
+- mouse
+- hard_drive
+- ram
+- cpu
+- capacitor
+nc: 12
+path: C:\Users\bsree\OneDrive\Desktop\E-waste\data
+test: images/test
+train: images/train
+val: images/val
