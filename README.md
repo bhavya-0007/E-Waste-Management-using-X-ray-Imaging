@@ -1,97 +1,190 @@
-# 🔬 E-Waste Detection & Classification System
-## AI-Based Object Detection using YOLOv8 | 80/10/10 Split
+# Sustainable E-Waste Management Using AI-Assisted X-Ray Imaging
 
----
+An AI-driven e-waste management system that uses **non-destructive X-ray imaging and computer vision** to identify electronic components and support automated e-waste classification and intelligent resource recovery.
 
-## ⚡ QUICK START (Run in ~2 Hours)
+## Overview
 
-```bash
-# 1. Install dependencies
-pip install ultralytics opencv-python matplotlib numpy pandas seaborn pyyaml requests tqdm pillow
+Electronic waste contains valuable materials as well as hazardous components, making efficient identification and sorting important for sustainable recycling.
 
-# 2. Download dataset (run this first - takes ~5 minutes)
-python download_dataset.py
+This project explores the use of **X-ray imaging combined with deep learning** to analyze electronic waste without physically dismantling the components. The system focuses on detecting and classifying **Printed Circuit Boards (PCBs)** from X-ray images using the YOLOv8 object detection framework.
 
-# 3. Train the model (~60-90 min on GPU, ~4-6 hrs CPU)
-python train.py
+The objective is to automate the identification stage of e-waste processing and provide a foundation for more efficient material separation and resource recovery.
 
-# 4. Evaluate on test set
-python evaluate.py
+## Key Features
 
-# 5. Run inference on images
-python predict.py --source data/images/test/
+* Non-destructive analysis of electronic waste using X-ray imaging
+* AI-based identification of electronic components
+* Automated **PCB detection using YOLOv8**
+* Computer vision-based image analysis
+* Object detection and localization
+* Dataset preparation and annotation for X-ray imagery
+* Potential integration with automated sorting and resource recovery systems
+* Supports sustainable and intelligent e-waste processing
+
+## System Workflow
+
+```text id="p3s8nq"
+              E-Waste
+                  │
+                  ▼
+        ┌───────────────────┐
+        │   X-Ray Imaging   │
+        └─────────┬─────────┘
+                  │
+                  ▼
+        ┌───────────────────┐
+        │ Image Preprocessing│
+        └─────────┬─────────┘
+                  │
+                  ▼
+        ┌───────────────────┐
+        │     YOLOv8        │
+        │ Object Detection  │
+        └─────────┬─────────┘
+                  │
+                  ▼
+        ┌───────────────────┐
+        │ PCB Identification│
+        │ & Localization    │
+        └─────────┬─────────┘
+                  │
+                  ▼
+        ┌───────────────────┐
+        │ E-Waste Sorting & │
+        │ Resource Recovery │
+        └───────────────────┘
 ```
 
----
+## Methodology
 
-## 📁 Project Structure
+### 1. X-Ray Image Acquisition
 
+X-ray imaging is used to capture the internal structure of electronic waste.
+
+Unlike conventional RGB imaging, X-ray images can reveal internal components and structures that may not be visible externally.
+
+### 2. Dataset Preparation
+
+A dataset containing **700+ PCB X-ray images** was used during the development of the project.
+
+The dataset preparation pipeline includes:
+
+* Image collection
+* Data cleaning
+* Image preprocessing
+* Object annotation
+* Dataset organization
+* Training and validation split
+
+### 3. Object Detection
+
+**YOLOv8** is used to detect and localize PCBs within X-ray images.
+
+The model predicts bounding boxes and class information, allowing the system to automatically identify relevant electronic components.
+
+```text id="j5z2qm"
+X-Ray Image
+     ↓
+YOLOv8
+     ↓
+Feature Extraction
+     ↓
+Object Detection
+     ↓
+Bounding Boxes + Class
+     ↓
+PCB Identification
 ```
-ewaste_project/
-├── README.md
-├── download_dataset.py       ← Auto-downloads dataset
-├── train.py                  ← Full training pipeline
-├── evaluate.py               ← Metrics + confusion matrix
-├── predict.py                ← Inference on images/video
-├── material_classifier.py    ← Rule-based material + hazard inference
-├── recovery_estimator.py     ← Economic value estimation
-├── dataset.yaml              ← Auto-generated dataset config
-└── data/                     ← Auto-created by download_dataset.py
-    ├── images/train/
-    ├── images/val/
-    ├── images/test/
-    ├── labels/train/
-    ├── labels/val/
-    └── labels/test/
+
+### 4. Intelligent Resource Recovery
+
+The detected components provide information that can be used by downstream e-waste processing systems.
+
+The long-term objective is to connect automated visual identification with:
+
+* Component sorting
+* Material classification
+* Recovery prioritization
+* Recycling workflows
+* Valuable material extraction
+
+## Why X-Ray Imaging?
+
+Traditional image-based e-waste classification primarily relies on visible surface characteristics.
+
+X-ray imaging provides additional information about the **internal structure of electronic devices**, making it useful when components are enclosed, layered, or difficult to identify using conventional RGB images.
+
+The non-destructive nature of X-ray inspection also makes it suitable for automated pre-sorting before physical dismantling or recycling.
+
+## Why YOLOv8?
+
+YOLOv8 was selected because it provides an efficient object-detection framework capable of simultaneously identifying and localizing objects within an image.
+
+For this project, this enables the system to locate PCBs directly from X-ray images rather than relying solely on image-level classification.
+
+## Technology Stack
+
+| Component        | Technology            |
+| ---------------- | --------------------- |
+| Programming      | Python                |
+| Computer Vision  | OpenCV                |
+| Object Detection | YOLOv8                |
+| Deep Learning    | PyTorch               |
+| Data Processing  | NumPy, Pandas         |
+| Visualization    | Matplotlib            |
+| Imaging          | X-Ray Images          |
+| Dataset          | 700+ PCB X-Ray Images |
+
+## Project Pipeline
+
+```text id="x7m0au"
+X-Ray Dataset
+      ↓
+Data Cleaning & Preprocessing
+      ↓
+Image Annotation
+      ↓
+Train / Validation Split
+      ↓
+YOLOv8 Training
+      ↓
+Model Validation
+      ↓
+PCB Detection
+      ↓
+Classification & Localization
+      ↓
+Intelligent E-Waste Processing
 ```
 
----
+## Applications
 
-## 🗂️ Dataset Info
+The system can form the basis for intelligent e-waste processing applications such as:
 
-**Primary Source**: Roboflow Universe (free, no login needed for some)
-**Backup**: Script auto-generates synthetic data if download fails
+* Automated PCB identification
+* E-waste sorting systems
+* Recycling facility automation
+* Component-level inspection
+* Non-destructive electronic inspection
+* Resource recovery optimization
 
-**Classes (12)**:
-| ID | Class |
-|----|-------|
-| 0  | circuit_board |
-| 1  | mobile_phone |
-| 2  | battery |
-| 3  | cable |
-| 4  | charger |
-| 5  | keyboard |
-| 6  | monitor |
-| 7  | mouse |
-| 8  | hard_drive |
-| 9  | ram |
-| 10 | cpu |
-| 11 | capacitor |
+## Future Enhancements
 
----
+* Expand the dataset to include additional electronic components
+* Multi-class detection of capacitors, ICs, connectors, and other PCB components
+* Improve detection performance on overlapping and damaged components
+* Integrate hyperspectral or multimodal imaging
+* Develop automated robotic sorting
+* Estimate recoverable materials from detected components
+* Deploy the model on edge devices for real-time processing
+* Integrate detection results with a resource-recovery decision system
 
-## 🏗️ Architecture (Improved vs Original)
+## Project Objective
 
-| Feature | Original (70/20/10) | This Project (80/10/10) |
-|---------|-------------------|------------------------|
-| Model | YOLOv8 only | YOLOv8 + material inference |
-| Output | BBox + class | BBox + class + hazard flag + value |
-| Hazard detection | ❌ | ✅ Toxic component flagging |
-| Recovery value | ❌ | ✅ Economic value estimator |
-| Dataset split | 70/20/10 | **80/10/10** |
+The project aims to demonstrate how **AI and non-destructive X-ray imaging can support sustainable e-waste management** by automating component identification and creating a foundation for intelligent sorting and resource recovery.
 
----
+## Author
 
-## 📊 Expected Results
+**Bhavya Sree Achanta**
 
-| Metric | Expected |
-|--------|---------|
-| Precision | ~85-90% |
-| Recall | ~82-87% |
-| mAP@0.5 | ~0.84-0.88 |
-| F1 Score | ~0.85 |
-
----
-
-## Requirements
-- Python 3.8+, 8GB RAM, GPU optional
+B.Tech – Computer Science and Engineering
